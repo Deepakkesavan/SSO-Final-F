@@ -1,0 +1,22 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h2>{{ getWelcomeMessage() }}</h2>
+    <button (click)="logout()" [disabled]="logoutLoading">
+      {{ logoutLoading ? 'Logging out...' : 'Logout' }}
+    </button>
+  </div>
+
+  <div class="app-cards">
+    <div class="app-card lms-card">
+      <h4>LMS App</h4>
+      <p>Access the Learning Management System</p>
+      <button (click)="redirectToLMS()">Go to LMS</button>
+    </div>
+
+    <div class="app-card rrf-card">
+      <h4>RRF App</h4>
+      <p>Access the RRF Application</p>
+      <button (click)="redirectToRRF()">Go to RRF</button>
+    </div>
+  </div>
+</div>
