@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil, switchMap, of } from 'rxjs';
 import { AuthServiceService, User } from '../../services/auth-service.service';
@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app-login.component.html',
   styleUrls: ['./app-login.component.css'],
   imports: [FormsModule, CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppLoginComponent implements OnInit, OnDestroy {
   loginData = { username: '', password: '' };
@@ -74,6 +75,10 @@ export class AppLoginComponent implements OnInit, OnDestroy {
 
   goToSignup(): void {
     this.router.navigate(['/signup']);
+  }
+
+  goToForgotPassword(): void {
+    this.router.navigate(['/forgot-password']);
   }
 
   goToDashboard(): void {
