@@ -59,11 +59,11 @@ export class AuthServiceService {
   }
 
   /** ===================== CUSTOM LOGIN ===================== */
-  customLogin(email: string, password: string): Observable<any> {
+  customLogin(username: string, password: string): Observable<any> {
     return this.http
       .post(
         `${this.CUSTOM_API}/signin`,
-        { email, password },
+        { username, password },
         { withCredentials: true, observe: 'response' }
       )
       .pipe(
