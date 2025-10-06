@@ -6,6 +6,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { VerifyOtpComponent } from './components/verify-otp/verify-otp.component';
 import { SetNewPasswordComponent } from './components/set-new-password/set-new-password.component';
 import { authGuard } from './guards/auth.guard';
+import { AzureLoginComponent } from './components/azure-login/azure-login.component';
+import { UserLoginComponent } from './components/user-login/user-login.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -14,6 +16,8 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-otp', component: VerifyOtpComponent },
   { path: 'set-new-password', component: SetNewPasswordComponent },
+  { path: 'azure-login', component: AzureLoginComponent },
+  { path: 'user-login', component: UserLoginComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,

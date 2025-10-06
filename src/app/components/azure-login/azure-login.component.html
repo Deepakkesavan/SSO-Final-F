@@ -1,0 +1,38 @@
+<div class="login-container">
+  <div class="login-container-inner">
+    
+    <div class="login-left">
+      <div class="login-card">
+        <h2>Welcome to Clarium SSO</h2>
+        <p class="subtitle">Sign in with your Azure AD account</p>
+        
+        <div *ngIf="loading" class="loading-msg">
+          Redirecting to Azure...
+        </div>
+        
+        <div *ngIf="!loading">
+          <button class="azure-btn" (click)="loginWithAzure()">
+            <svg class="microsoft-icon" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#f35325" d="M1 1h10v10H1z"/>
+              <path fill="#81bc06" d="M12 1h10v10H12z"/>
+              <path fill="#05a6f0" d="M1 12h10v10H1z"/>
+              <path fill="#ffba08" d="M12 12h10v10H12z"/>
+            </svg>
+            Sign in with Microsoft
+          </button>
+          
+          <div class="divider">OR</div>
+          
+          <button class="signup-btn" (click)="goToUserLogin()">
+            Sign in with Email & Password
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-right">
+      <img src="../../../assets/clarium.jpg" alt="clarium" class="login-image" />
+    </div>
+
+  </div>
+</div>
