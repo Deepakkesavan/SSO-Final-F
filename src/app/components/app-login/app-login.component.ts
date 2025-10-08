@@ -73,10 +73,6 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     this.authService.loginWithAzure();
   }
 
-  goToSignup(): void {
-    this.router.navigate(['/signup']);
-  }
-
   goToForgotPassword(): void {
     this.router.navigate(['/forgot-password']);
   }
