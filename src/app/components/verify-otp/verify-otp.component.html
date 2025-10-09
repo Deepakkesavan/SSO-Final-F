@@ -1,61 +1,69 @@
 <div class="verify-otp-container">
-    <div class="verify-otp-box">
-      <div class="verify-otp-card">
-        <h2>Verify OTP</h2>
-        <p class="subtitle">
-          Please enter the 6-digit code sent to<br>
-          <strong>{{ email }}</strong>
-        </p>
   
-        <div *ngIf="successMessage" class="success-msg">
-          {{ successMessage }}
-        </div>
-  
-        <div *ngIf="errorMessage" class="error-msg">
-          {{ errorMessage }}
-        </div>
-  
-        <form (ngSubmit)="onSubmit()" #verifyOtpForm="ngForm">
-          <div class="input-box">
-            <input 
-              type="text" 
-              name="otp" 
-              [(ngModel)]="otp" 
-              (input)="onOtpInput($event)"
-              required 
-              maxlength="6"
-              pattern="[0-9]{6}"
-              placeholder=" "
-              autocomplete="off"
-            />
-            <label>Enter 6-Digit OTP</label>
-            <span class="icon">
-              <ion-icon name="key"></ion-icon>
-            </span>
-          </div>
-  
-          <button type="submit" [disabled]="!verifyOtpForm.form.valid || isSubmitting">
-            {{ isSubmitting ? 'Verifying...' : 'Verify OTP' }}
-          </button>
-        </form>
-  
-        <div class="resend-section">
-          <p>Didn't receive the code?</p>
-          <button 
-            type="button" 
-            class="resend-btn" 
-            (click)="resendOtp()" 
-            [disabled]="isResending">
-            {{ isResending ? 'Sending...' : 'Resend OTP' }}
-          </button>
-        </div>
-  
-        <div class="back-to-login">
-          <a (click)="goBackToForgotPassword()">
-            <ion-icon name="arrow-back"></ion-icon>
-            Change Email
-          </a>
-        </div>
-      </div>
+  <!-- Logo Section -->
+  <div class="logo-section">
+    <div class="logo-icon">
+      <img src="../../../assets/logo2-while-2 1.png" alt="Clarium Logo" />
     </div>
   </div>
+
+  <!-- Verify OTP Card -->
+  <div class="verify-otp-card">
+    <h2>Verify OTP</h2>
+    <p class="subtitle">
+      Please enter the 6-digit code sent to<br>
+      <strong>{{ email }}</strong>
+    </p>
+
+    <div *ngIf="successMessage" class="success-msg">
+      {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="error-msg">
+      {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #verifyOtpForm="ngForm">
+      <div class="input-box">
+        <label>Enter 6-Digit OTP</label>
+        <input 
+          type="text" 
+          name="otp" 
+          [(ngModel)]="otp" 
+          (input)="onOtpInput($event)"
+          required 
+          maxlength="6"
+          pattern="[0-9]{6}"
+          placeholder="000000"
+          autocomplete="off"
+        />
+        <span class="icon">
+          <ion-icon name="key"></ion-icon>
+        </span>
+      </div>
+
+      <button type="submit" [disabled]="!verifyOtpForm.form.valid || isSubmitting">
+        {{ isSubmitting ? 'Verifying...' : 'Verify OTP' }}
+      </button>
+    </form>
+
+    <div class="resend-section">
+      <p>Didn't receive the code?</p>
+      <button 
+        type="button" 
+        class="resend-btn" 
+        (click)="resendOtp()" 
+        [disabled]="isResending">
+        {{ isResending ? 'Sending...' : 'Resend OTP' }}
+      </button>
+    </div>
+
+    <div class="back-to-login">
+      <a (click)="goBackToForgotPassword()">
+        <ion-icon name="arrow-back"></ion-icon>
+        Change Email
+      </a>
+    </div>
+  </div>
+
+</div>
