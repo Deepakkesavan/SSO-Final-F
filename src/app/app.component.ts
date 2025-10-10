@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
@@ -9,7 +9,8 @@ import { Router, RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'oauth2-angular-app';
-  constructor(private router: Router) {}
+  router = inject(Router);
+  // constructor(private router: Router) {}
 
   ngOnInit() {
 
@@ -23,7 +24,7 @@ export class AppComponent {
     console.log('Pathname:', pathname);
 
     if (pathname.includes('/admin')) {
-      this.router.navigate(['/admin-dashboard']);
+      this.router.navigateByUrl('/admin-dashboard');
     } 
     else if(portnumber === '1234'){
       this.router.navigate(['user-login']);
