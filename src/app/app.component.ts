@@ -8,7 +8,6 @@ import { Router, RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'oauth2-angular-app';
   router = inject(Router);
   // constructor(private router: Router) {}
 
