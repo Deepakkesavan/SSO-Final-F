@@ -1,0 +1,6 @@
+<div class="dashboard-header">
+    <h2>{{ getWelcomeMessage() }}</h2>
+    <button (click)="logout()" [disabled]="logoutLoading">
+      {{ logoutLoading ? 'Logging out...' : 'Logout' }}
+    </button>
+</div>

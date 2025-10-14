@@ -14,7 +14,7 @@ interface SignupData {
   selector: 'app-sign-up',
   imports: [CommonModule, FormsModule],
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css'], // fixed here
+  styleUrls: ['./sign-up.component.scss'], // fixed here
 })
 export class SignupComponent {
   errorMessage = '';

@@ -2,15 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-
-export interface User {
-  username?: string;
-  email?: string;
-  empId?: number;
-  designation?: string;
-  givenName?: string;
-  familyName?: string;
-}
+import { IUser } from '../dashboard/model/dashboard.model';
+import { BACKEND_URLS } from '../environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthServiceService {
@@ -19,7 +12,7 @@ export class AuthServiceService {
 
   private userSubject = new BehaviorSubject<{
     authenticated: boolean;
-    user?: User;
+    user?: IUser;
   }>({ authenticated: false });
   public user$ = this.userSubject.asObservable();
 
@@ -46,9 +39,9 @@ export class AuthServiceService {
   }
 
   /** ===================== FETCH FULL USER PROFILE ===================== */
-  getUserProfile(): Observable<User> {
+  getUserProfile(): Observable<IUser> {
     return this.http
-      .get<User>(`${this.API}/user-profile`, { withCredentials: true })
+      .get<IUser>(`${BACKEND_URLS.SSOURL}/user-profile`, { withCredentials: true })
       .pipe(
         tap((user) => this.userSubject.next({ authenticated: true, user })),
         catchError(() => {
@@ -57,6 +50,7 @@ export class AuthServiceService {
         })
       );
   }
+  
 
   /** ===================== CUSTOM LOGIN ===================== */
   customLogin(username: string, password: string): Observable<any> {
@@ -68,7 +62,7 @@ export class AuthServiceService {
       )
       .pipe(
         tap((res) => {
-          const user = (res.body ?? {}) as User;
+          const user = (res.body ?? {}) as IUser;
           this.userSubject.next({ authenticated: true, user });
         }),
         catchError((err) => {
@@ -104,11 +98,11 @@ export class AuthServiceService {
     return this.userSubject.value.authenticated === true;
   }
 
-  getUser(): User | undefined {
+  getUser(): IUser | undefined {
     return this.userSubject.value.user;
   }
 
-  setUser(user: User): void {
+  setUser(user: IUser): void {
     this.userSubject.next({ authenticated: true, user });
   }
 

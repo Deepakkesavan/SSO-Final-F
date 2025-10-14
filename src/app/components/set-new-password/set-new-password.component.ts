@@ -7,7 +7,7 @@ import { ForgotPasswordService } from '../../services/forgot-password.service';
 @Component({
   selector: 'app-set-new-password',
   templateUrl: './set-new-password.component.html',
-  styleUrls: ['./set-new-password.component.css'],
+  styleUrls: ['./set-new-password.component.scss'],
   imports: [FormsModule, CommonModule, RouterLink],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil, switchMap, of } from 'rxjs';
-import { AuthServiceService, User } from '../../services/auth-service.service';
+import { AuthServiceService } from '../../services/auth-service.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './app-login.component.html',
-  styleUrls: ['./app-login.component.css'],
+  styleUrls: ['./app-login.component.scss'],
   imports: [FormsModule, CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
@@ -59,12 +59,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.customLoginLoading = false;
-          this.errorMessage =
-            err.status === 404
-              ? 'User not found'
-              : err.status === 401
-              ? 'Invalid credentials'
-              : 'Login failed';
+          this.errorMessage = err.message;
         },
       });
   }

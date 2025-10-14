@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
+import { AuthServiceService } from '../../../services/auth-service.service';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { AuthServiceService } from '../../services/auth-service.service';
 
 @Component({
-  selector: 'app-azure-login',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './azure-login.component.html',
-  styleUrls: ['./azure-login.component.css']
+  selector: 'app-login-card',
+  imports: [],
+  templateUrl: './login-card.component.html',
+  styleUrl: './login-card.component.scss'
 })
-export class AzureLoginComponent {
+export class LoginCardComponent {
   loading = false;
 
   constructor(

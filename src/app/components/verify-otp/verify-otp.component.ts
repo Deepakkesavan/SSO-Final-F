@@ -7,7 +7,7 @@ import { ForgotPasswordService } from '../../services/forgot-password.service';
 @Component({
   selector: 'app-verify-otp',
   templateUrl: './verify-otp.component.html',
-  styleUrls: ['./verify-otp.component.css'],
+  styleUrls: ['./verify-otp.component.scss'],
   imports: [FormsModule, CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

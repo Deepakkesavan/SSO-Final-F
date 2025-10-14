@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AzureLoginComponent } from './azure-login.component';
+import { AzureLoginComponent } from './azure-login.page';
 
 describe('AzureLoginComponent', () => {
   let component: AzureLoginComponent;
