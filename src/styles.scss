@@ -1,12 +1,8 @@
 
-
-body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-  
-  html {
-    margin: 0;
-    padding: 0;
-  }
+/* ===== Reset & Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
