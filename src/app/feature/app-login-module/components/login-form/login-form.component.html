@@ -12,8 +12,8 @@
     <!-- Custom Login Form -->
     <form [formGroup]="loginForm" (ngSubmit)="customLogin()">
         <div class="form-group">
-            <label>Email</label>
-            <input formControlName="email" type="email" required placeholder="hello@reallyneatsite.com" />
+            <label>Employee ID</label>
+            <input formControlName="email" type="text" required placeholder="eg: 1000" />
             @if (this.loginForm.get('email')?.touched &&
             this.loginForm.get('email')?.invalid) {
             <small>

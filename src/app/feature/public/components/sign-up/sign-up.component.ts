@@ -1,79 +1,83 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthServiceService } from '../../../../shared/services/auth-service.service';
 import { Router } from '@angular/router';
 import { LayoutComponent } from "../../../../shared/components/layout/layout.component";
 import { SIGNUP_PAGE_DETAILS } from '../../../../core/constants/constant';
-
-interface SignupData {
-  username: string;
-  email: string;
-  password: string;
-}
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-sign-up',
   imports: [CommonModule, LayoutComponent, ReactiveFormsModule],
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'], // fixed here
+  styleUrls: ['./sign-up.component.scss'],
 })
-export class SignupComponent implements OnInit{
+export class SignupComponent implements OnInit {
   brandingDetails = SIGNUP_PAGE_DETAILS;
   errorMessage = '';
   successMessage = '';
   loading = false;
-  signupForm!:FormGroup;
+  signupForm!: FormGroup;
 
-  authService = inject(AuthServiceService);
-  router = inject(Router);
-  fb = inject(FormBuilder);
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private fb = inject(FormBuilder);
 
   ngOnInit(): void {
-      this.initializeForm();
+    this.initializeForm();
   }
 
-  initializeForm(){
+  initializeForm() {
     this.signupForm = this.fb.group({
-      username: ['', [Validators.required]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
-    })
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
   }
 
   signup(): void {
-    
+    if (this.signupForm.invalid) {
+      return;
+    }
+
     this.loading = true;
     this.errorMessage = '';
     this.successMessage = '';
 
-    // this.authService.signup(this.signupData).subscribe({
-    //   next: (response) => {
-    //     this.loading = false;
-    //     console.log('Signup successful:', response);
-    //     this.successMessage = 'Account created successfully! Redirecting to login...';
+    const signupData = {
+      username: this.signupForm.get('username')?.value,
+      email: this.signupForm.get('email')?.value,
+      password: this.signupForm.get('password')?.value
+    };
 
-    //     // Redirect to login after 2 seconds
-    //     setTimeout(() => this.router.navigate(['/login']), 2000);
-    //   },
-    //   error: (error: { error?: { error: string }; status: number }) => {
-    //     this.loading = false;
-    //     console.error('Signup failed:', error);
+    this.http.post('http://localhost:8080/custom-login/auth/signup', signupData, {
+      withCredentials: true
+    }).subscribe({
+      next: (response) => {
+        this.loading = false;
+        console.log('Signup successful:', response);
+        this.successMessage = 'Account created successfully! Redirecting to login...';
 
-    //     if (error.error?.error) {
-    //       this.errorMessage = error.error.error;
-    //     } else if (error.status === 400) {
-    //       this.errorMessage =
-    //         'Email or username already exists. Please try with different credentials.';
-    //     } else {
-    //       this.errorMessage = 'Signup failed. Please try again.';
-    //     }
-    //   },
-    // });
-   
+        // Redirect to login after 2 seconds
+        setTimeout(() => this.router.navigate(['/user-login']), 2000);
+      },
+      error: (error: { error?: { error: string }; status: number }) => {
+        this.loading = false;
+        console.error('Signup failed:', error);
+
+        if (error.error?.error) {
+          this.errorMessage = error.error.error;
+        } else if (error.status === 400) {
+          this.errorMessage = 'Email or username already exists. Please try with different credentials.';
+        } else {
+          this.errorMessage = 'Signup failed. Please try again.';
+        }
+      },
+    });
   }
-  navigateToLogin(){
-    this.router.navigate(['user-login'],{ replaceUrl: true})
-  }
 
+  navigateToLogin() {
+    this.router.navigate(['user-login'], { replaceUrl: true });
+  }
 }

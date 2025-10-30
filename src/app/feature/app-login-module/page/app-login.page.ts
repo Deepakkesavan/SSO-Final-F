@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LoginFormComponent } from "../components/login-form/login-form.component";
 import { LayoutComponent } from "../../../shared/components/layout/layout.component";
+import { APP_LOGIN_BRANDING_DETAILS } from '../../../core/constants/constant';
 
 @Component({
   selector: 'app-login',
@@ -17,51 +18,16 @@ export class AppLoginComponent {
   private authService = inject(AuthServiceService);
   private router = inject(Router);
 
-  loginData = { username: '', password: '' };
-  errorMessage = '';
-  loading = true;
-  customLoginLoading = false;
+  // Get the current user state from the signal
   user = this.authService.userSubjectOneSignal();
-  // Placeholder for brandingData; adjust type as needed
-  brandingData: any = {};
+  
+  // Branding data
+  brandingData = APP_LOGIN_BRANDING_DETAILS;
 
   constructor() {
-    this.loading = false;
-    if (this.user.authenticated && this.user.user) {
+    // Check if user is already authenticated
+    if (this.user.authenticated) {
       this.router.navigate(['/dashboard']);
     }
-  }
-
-  customLogin(): void {
-    if (!this.loginData.username || !this.loginData.password) {
-      this.errorMessage = 'Please enter both username and password';
-      return;
-    }
-
-    this.customLoginLoading = true;
-    this.errorMessage = '';
-
-    this.authService.customLogin(this.loginData.username, this.loginData.password)
-      .toPromise()
-      .then(() => this.authService.getUserProfile().toPromise())
-      .then(() => {
-        this.customLoginLoading = false;
-        this.router.navigate(['/dashboard']);
-      }, (err) => {
-        this.customLoginLoading = false;
-        this.errorMessage = 'Login failed. Please check your credentials.';
-      });
-  }
-
-  loginWithAzure(): void {
-    this.authService.loginWithAzure();
-  }
-
-  goToForgotPassword(): void {
-    this.router.navigate(['/forgot-password']);
-  }
-
-  goToDashboard(): void {
-    this.router.navigate(['/dashboard']);
   }
 }

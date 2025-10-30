@@ -1,25 +1,24 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { IUser } from '../../feature/dashboard/model/dashboard.model';
 import { BACKEND_URLS } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthServiceService {
-  private readonly API = 'http://localhost:8080/api/auth';
-  private readonly CUSTOM_API = 'http://localhost:8080/custom-login/auth';
+  private readonly API = BACKEND_URLS.SSOURL;
+  private readonly CUSTOM_API = 'http://localhost:8080/ssoapi/custom-login/auth';
 
-  
-  public user$ = new Observable<{authenticated: boolean, user?:IUser}>();
   private userSubject = signal<{
     authenticated: boolean;
     user?: IUser;
   }>({ authenticated: false });
+  
   public userSubjectOneSignal = this.userSubject.asReadonly();
 
   constructor(private http: HttpClient) {
-    this.checkAuthStatus(); // only checks true/false
+    this.checkAuthStatus();
   }
 
   /** ===================== CHECK AUTH STATUS ===================== */
@@ -29,35 +28,41 @@ export class AuthServiceService {
         withCredentials: true,
       })
       .pipe(
-        tap((status) =>
-          this.userSubject.set({ authenticated: status.authenticated })
-        ),
+        tap((status) => {
+          if (status.authenticated) {
+            // If authenticated, fetch full profile
+            this.getUserProfile().subscribe();
+          } else {
+            this.userSubject.set({ authenticated: false });
+          }
+        }),
         catchError(() => {
           this.userSubject.set({ authenticated: false });
           return of(null);
         })
       )
       .subscribe();
-}
-/** ===================== FETCH FULL USER PROFILE ===================== */
-getUserProfile(): Observable<IUser> {
-  return this.http
-    .get<IUser>(`${BACKEND_URLS.SSOURL}/user-profile`, { withCredentials: true })
-    .pipe(
-      tap((user) => this.userSubject.set({ authenticated: true, user })),
-      catchError(() => {
-        this.userSubject.set({ authenticated: false });
-        return of(undefined as any);
-      })
-    );
-}
-  
+  }
 
-  customLogin(username: string, password: string): Observable<any> {
+  /** ===================== FETCH FULL USER PROFILE ===================== */
+  getUserProfile(): Observable<IUser> {
+    return this.http
+      .get<IUser>(`${this.API}/user-profile`, { withCredentials: true })
+      .pipe(
+        tap((user) => this.userSubject.set({ authenticated: true, user })),
+        catchError(() => {
+          this.userSubject.set({ authenticated: false });
+          return of(undefined as any);
+        })
+      );
+  }
+
+  /** ===================== CUSTOM LOGIN ===================== */
+  customLogin(email: string, password: string): Observable<any> {
     return this.http
       .post(
         `${this.CUSTOM_API}/signin`,
-        { username, password },
+        { email, password },
         { withCredentials: true, observe: 'response' }
       )
       .pipe(
@@ -70,14 +75,11 @@ getUserProfile(): Observable<IUser> {
           throw err;
         })
       );
-}
+  }
 
   /** ===================== OAUTH LOGIN ===================== */
   loginWithAzure(): void {
-    window.location.href = `${this.API.replace(
-      '/api/auth',
-      ''
-    )}/oauth2/authorization/azure`
+    window.location.href = `https://people-dev.clarium.tech/ssoapi/login/oauth2/code/`;
   }
 
   /** ===================== LOGOUT ===================== */
@@ -106,12 +108,10 @@ getUserProfile(): Observable<IUser> {
     this.userSubject.set({ authenticated: true, user });
   }
 
-    clearAuth(): void {
-      this.userSubject.set({ authenticated: false });
-      localStorage.clear();
-      sessionStorage.clear();
-      this.clearCookies();
-    }
+  clearAuth(): void {
+    this.userSubject.set({ authenticated: false });
+    this.clearCookies();
+  }
 
   private clearCookies(): void {
     const cookies = ['jwt', 'JSESSIONID', 'XSRF-TOKEN'];

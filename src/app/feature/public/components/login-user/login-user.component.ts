@@ -12,32 +12,34 @@ import { USER_LOGIN_PAGE_DETAILS } from '../../../../core/constants/constant';
   imports: [ReactiveFormsModule, AzureButtonComponent, LayoutComponent],
   templateUrl: './login-user.component.html',
   styleUrl: './login-user.component.scss',
-  
 })
-export class LoginUserComponent implements OnInit, OnDestroy{
-  brandinDetails = USER_LOGIN_PAGE_DETAILS
-  loginForm!:FormGroup;
+export class LoginUserComponent implements OnInit, OnDestroy {
+  brandinDetails = USER_LOGIN_PAGE_DETAILS;
+  loginForm!: FormGroup;
   loading = false;
   errorMessage = "";
+  
   private fb = inject(FormBuilder);
-  authService = inject(AuthServiceService);
+  private authService = inject(AuthServiceService);
   private destroy$ = new Subject<void>();
   private router = inject(Router);
 
   ngOnInit(): void {
-      this.initializeForm();
+    this.initializeForm();
   }
 
-
-  initializeForm(){
+  initializeForm() {
     this.loginForm = this.fb.group({
       userName: ["", [Validators.required]],
       password: ["", [Validators.required]]
-    })
+    });
   }
 
   login(): void {
-    if (!this.loginForm.get('username')?.value || !this.loginForm.get("password")?.value) {
+    const username = this.loginForm.get('userName')?.value;
+    const password = this.loginForm.get('password')?.value;
+
+    if (!username || !password) {
       this.errorMessage = 'Please enter both username and password';
       return;
     }
@@ -46,7 +48,7 @@ export class LoginUserComponent implements OnInit, OnDestroy{
     this.errorMessage = '';
 
     this.authService
-      .customLogin(this.loginForm.get("username")?.value, this.loginForm.get('password')?.value)
+      .customLogin(username, password)
       .pipe(
         takeUntil(this.destroy$),
         switchMap(() => this.authService.getUserProfile())
@@ -65,16 +67,12 @@ export class LoginUserComponent implements OnInit, OnDestroy{
       });
   }
 
-  navigateToForgotPassword(){
-    this.router.navigate(['forgot-password'],{replaceUrl: true});
+  navigateToForgotPassword() {
+    this.router.navigate(['forgot-password'], { replaceUrl: true });
   }
 
-  navigateToSignup(){
-    this.router.navigate(['signup'], {replaceUrl: true})
-  }
-
-  goToAzureLogin(): void {
-    this.router.navigate(['/azure-login']);
+  navigateToSignup() {
+    this.router.navigate(['signup'], { replaceUrl: true });
   }
 
   ngOnDestroy(): void {

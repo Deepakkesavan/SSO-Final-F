@@ -53,22 +53,18 @@ export class ForgotPasswordService {
     );
   }
 
-  // Store email temporarily (for navigation between components)
+  // Store email temporarily (in-memory only for navigation between components)
   setEmail(email: string): void {
     this.email = email;
-    // Also store in sessionStorage as backup
-    sessionStorage.setItem('reset_email', email);
   }
 
   // Get stored email
   getEmail(): string {
-    // Try to get from service first, then sessionStorage
-    return this.email || sessionStorage.getItem('reset_email') || '';
+    return this.email;
   }
 
   // Clear email after successful password reset
   clearEmail(): void {
     this.email = '';
-    sessionStorage.removeItem('reset_email');
   }
 }

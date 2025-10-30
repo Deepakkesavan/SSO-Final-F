@@ -7,11 +7,16 @@ export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   const isAuth = authService.isAuthenticated();
-  console.log(authService.userSubjectOneSignal().user);
+  
+  console.log('Auth Guard Check:', {
+    isAuthenticated: isAuth,
+    user: authService.userSubjectOneSignal().user
+  });
 
   if (isAuth) {    
     return true;
   } else {
-    return router.parseUrl('/login');
+    // Redirect to azure-login instead of /login
+    return router.parseUrl('/azure-login');
   }
 };

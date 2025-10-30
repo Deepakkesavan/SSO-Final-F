@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, effect } from '@angular/core';
 import { Subject, switchMap, takeUntil } from 'rxjs';
 import { AuthServiceService } from '../../../../shared/services/auth-service.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LOGIN_PAGE_DETAILS } from '../../../../core/constants/constant';
 import { AzureButtonComponent } from "../../../../shared/components/azure-button/azure-button.component";
 
@@ -12,8 +12,8 @@ import { AzureButtonComponent } from "../../../../shared/components/azure-button
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss'
 })
-export class LoginFormComponent implements OnInit, OnDestroy{
-  text = LOGIN_PAGE_DETAILS
+export class LoginFormComponent implements OnInit, OnDestroy {
+  text = LOGIN_PAGE_DETAILS;
   errorMessage = '';
   loading = true;
   customLoginLoading = false;
@@ -24,31 +24,46 @@ export class LoginFormComponent implements OnInit, OnDestroy{
 
   private authService = inject(AuthServiceService);
   private router = inject(Router);
-  private fb = inject(FormBuilder)
+  private fb = inject(FormBuilder);
 
-  ngOnInit(): void {
-    this.initializeForm();
-    this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
+  constructor() {
+    // Use effect to react to auth state changes
+    effect(() => {
+      const userState = this.authService.userSubjectOneSignal();
       this.loading = false;
-      this.isAuthenticated = user.authenticated;
+      this.isAuthenticated = userState.authenticated;
 
-      if (this.isAuthenticated && !user.user) {
+      if (this.isAuthenticated && userState.user) {
         this.router.navigate(['dashboard']);
       }
     });
   }
 
-  initializeForm(){
-    this.loginForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required]]
-    })
+  ngOnInit(): void {
+    this.initializeForm();
+    
+    // Initial check
+    const userState = this.authService.userSubjectOneSignal();
+    this.loading = false;
+    this.isAuthenticated = userState.authenticated;
+    
+    if (this.isAuthenticated && userState.user) {
+      this.router.navigate(['dashboard']);
+    }
   }
 
+  initializeForm() {
+    this.loginForm = this.fb.group({
+      email: ["", [Validators.required]],
+      password: ["", [Validators.required]]
+    });
+  }
 
-  customLogin(): void {   
-     
-    if (!this.loginForm.get('email')?.value || !this.loginForm.get('password')?.value) {
+  customLogin(): void {
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
+
+    if (!email || !password) {
       this.errorMessage = 'Please enter both username and password';
       return;
     }
@@ -57,10 +72,10 @@ export class LoginFormComponent implements OnInit, OnDestroy{
     this.errorMessage = '';
 
     this.authService
-      .customLogin(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value)
+      .customLogin(email, password)
       .pipe(
         takeUntil(this.destroy$),
-        switchMap(() => this.authService.getUserProfile()) // fetch full user profile after login
+        switchMap(() => this.authService.getUserProfile())
       )
       .subscribe({
         next: () => {

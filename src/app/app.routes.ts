@@ -10,18 +10,26 @@ import { AzureLoginComponent } from './feature/azure-login/page/azure-login.page
 import { LoginUserComponent } from './feature/public/components/login-user/login-user.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/azure-login', pathMatch: 'full' },
-  { path: 'login', component: AppLoginComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'verify-otp', component: VerifyOtpComponent },
-  { path: 'set-new-password', component: SetNewPasswordComponent },
-  { path: 'azure-login', component: AzureLoginComponent },
-  { path: 'user-login', component: LoginUserComponent },
   {
-    path: 'dashboard',
-    component: DashboardPage,
-    canActivate: [authGuard],
+    path:'ssoui',
+    children:[
+    {path:'', redirectTo:'azure-login', pathMatch:'full'},
+    { path: 'login', component: AppLoginComponent },
+    { path: 'signup', component: SignupComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'verify-otp', component: VerifyOtpComponent },
+    { path: 'set-new-password', component: SetNewPasswordComponent },
+    { path: 'azure-login', component: AzureLoginComponent },
+    { path: 'user-login', component: LoginUserComponent },
+    {
+      path: 'dashboard',
+      component: DashboardPage,
+      canActivate: [authGuard],
+    },
+    { path: '**', redirectTo: '/azure-login' },
+    ]
   },
-  { path: '**', redirectTo: '/azure-login' },
+  // { path: '', redirectTo: '/sso-ui', pathMatch: 'full' },
+  
+  
 ];

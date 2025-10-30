@@ -6,5 +6,5 @@ export const FRONTEND_URLS = {
 }
 
 export const BACKEND_URLS = {
-    SSOURL: "http://localhost:8080/api/auth"
+    SSOURL: "http://localhost:8080/ssoapi/api/auth"
 }
