@@ -4,18 +4,22 @@ import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { IUser } from '../../feature/dashboard/model/dashboard.model';
 import { BACKEND_URLS } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthServiceService {
   private readonly API = BACKEND_URLS.SSOURL;
-  private readonly CUSTOM_API = 'http://localhost:8080/ssoapi/custom-login/auth';
+  private readonly CUSTOM_API =
+    'https://people-dev.clarium.tech/custom-login/auth';
 
   private userSubject = signal<{
     authenticated: boolean;
     user?: IUser;
   }>({ authenticated: false });
-  
+
   public userSubjectOneSignal = this.userSubject.asReadonly();
+
+  private baseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) {
     this.checkAuthStatus();
@@ -77,9 +81,14 @@ export class AuthServiceService {
       );
   }
 
-  /** ===================== OAUTH LOGIN ===================== */
+  // /** ===================== OAUTH LOGIN ===================== */
+  // loginWithAzure(): void {
+  //   window.location.href = `${this.baseUrl}/oauth2/authorization/azure`;
+  //   // window.location.href = `https://people-dev.clarium.tech/ssoapi/oauth2/authorization/azure`;
+  // }
+
   loginWithAzure(): void {
-    window.location.href = `https://people-dev.clarium.tech/ssoapi/login/oauth2/code/`;
+    window.location.href = `${this.baseUrl}/oauth2/authorization/azure`;
   }
 
   /** ===================== LOGOUT ===================== */

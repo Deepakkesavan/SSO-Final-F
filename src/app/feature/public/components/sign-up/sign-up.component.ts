@@ -51,7 +51,7 @@ export class SignupComponent implements OnInit {
       password: this.signupForm.get('password')?.value
     };
 
-    this.http.post('http://localhost:8080/custom-login/auth/signup', signupData, {
+    this.http.post('https://people-dev.clarium.tech/ssoapi/custom-login/auth/signup', signupData, {
       withCredentials: true
     }).subscribe({
       next: (response) => {

@@ -1,10 +1,8 @@
-
-
 export const FRONTEND_URLS = {
     LMSURL: "http://localhost:4200",
     RRFURL: "http://localhost:4200"
 }
 
 export const BACKEND_URLS = {
-    SSOURL: "http://localhost:8080/ssoapi/api/auth"
+    SSOURL: "https://people-dev.clarium.tech/ssoapi/api/auth"
 }

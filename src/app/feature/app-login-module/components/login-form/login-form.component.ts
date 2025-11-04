@@ -2,15 +2,21 @@ import { Component, OnDestroy, OnInit, inject, effect } from '@angular/core';
 import { Subject, switchMap, takeUntil } from 'rxjs';
 import { AuthServiceService } from '../../../../shared/services/auth-service.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { LOGIN_PAGE_DETAILS } from '../../../../core/constants/constant';
-import { AzureButtonComponent } from "../../../../shared/components/azure-button/azure-button.component";
+import { AzureButtonComponent } from '../../../../shared/components/azure-button/azure-button.component';
 
 @Component({
   selector: 'app-login-form',
   imports: [ReactiveFormsModule, AzureButtonComponent],
+  standalone: true,
   templateUrl: './login-form.component.html',
-  styleUrl: './login-form.component.scss'
+  styleUrl: './login-form.component.scss',
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   text = LOGIN_PAGE_DETAILS;
@@ -34,28 +40,28 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       this.isAuthenticated = userState.authenticated;
 
       if (this.isAuthenticated && userState.user) {
-        this.router.navigate(['dashboard']);
+        // this.router.navigate(['dashboard']);
       }
     });
   }
 
   ngOnInit(): void {
     this.initializeForm();
-    
+
     // Initial check
     const userState = this.authService.userSubjectOneSignal();
     this.loading = false;
     this.isAuthenticated = userState.authenticated;
-    
+
     if (this.isAuthenticated && userState.user) {
-      this.router.navigate(['dashboard']);
+      // this.router.navigate(['dashboard']);
     }
   }
 
   initializeForm() {
     this.loginForm = this.fb.group({
-      email: ["", [Validators.required]],
-      password: ["", [Validators.required]]
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
   }
 

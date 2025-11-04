@@ -1,24 +1,30 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthServiceService } from '../../../../shared/services/auth-service.service';
 import { Subject, switchMap, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
-import { AzureButtonComponent } from "../../../../shared/components/azure-button/azure-button.component";
-import { LayoutComponent } from "../../../../shared/components/layout/layout.component";
+import { AzureButtonComponent } from '../../../../shared/components/azure-button/azure-button.component';
+import { LayoutComponent } from '../../../../shared/components/layout/layout.component';
 import { USER_LOGIN_PAGE_DETAILS } from '../../../../core/constants/constant';
 
 @Component({
   selector: 'app-login-user',
   imports: [ReactiveFormsModule, AzureButtonComponent, LayoutComponent],
   templateUrl: './login-user.component.html',
+  standalone: true,
   styleUrl: './login-user.component.scss',
 })
 export class LoginUserComponent implements OnInit, OnDestroy {
   brandinDetails = USER_LOGIN_PAGE_DETAILS;
   loginForm!: FormGroup;
   loading = false;
-  errorMessage = "";
-  
+  errorMessage = '';
+
   private fb = inject(FormBuilder);
   private authService = inject(AuthServiceService);
   private destroy$ = new Subject<void>();
@@ -30,8 +36,8 @@ export class LoginUserComponent implements OnInit, OnDestroy {
 
   initializeForm() {
     this.loginForm = this.fb.group({
-      userName: ["", [Validators.required]],
-      password: ["", [Validators.required]]
+      userName: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
   }
 
@@ -60,10 +66,11 @@ export class LoginUserComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.errorMessage = err.status === 401 
-            ? 'Invalid credentials' 
-            : 'Login failed. Please try again.';
-        }
+          this.errorMessage =
+            err.status === 401
+              ? 'Invalid credentials'
+              : 'Login failed. Please try again.';
+        },
       });
   }
 

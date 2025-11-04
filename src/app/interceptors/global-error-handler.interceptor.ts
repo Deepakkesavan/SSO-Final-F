@@ -2,6 +2,7 @@ import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 
 export const globalErrorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
+  req = req.clone({ withCredentials: true });
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       let errorMessage = '';
@@ -20,7 +21,7 @@ export const globalErrorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
       // Return the formatted error
       return throwError(() => ({
         status: error.status,
-        message: errorMessage
+        message: errorMessage,
       }));
     })
   );

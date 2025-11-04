@@ -5,13 +5,12 @@ import { brandingType } from '../../model/shared.model';
 @Component({
   selector: 'app-branding',
   imports: [],
+  standalone: true,
   templateUrl: './branding.component.html',
-  styleUrl: './branding.component.scss'
+  styleUrl: './branding.component.scss',
 })
 export class BrandingComponent {
-
   data = input<brandingType>();
 
-  text = computed(()=> this.data());
-
+  text = computed(() => this.data());
 }

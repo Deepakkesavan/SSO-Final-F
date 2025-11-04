@@ -21,7 +21,7 @@ interface SetPasswordResponse {
   providedIn: 'root'
 })
 export class ForgotPasswordService {
-  private readonly API_URL = 'http://localhost:8080/custom-login/auth';
+  private readonly API_URL = 'https://people-dev.clarium.tech/ssoapi/custom-login/auth';
   private email: string = '';
 
   constructor(private http: HttpClient) {}

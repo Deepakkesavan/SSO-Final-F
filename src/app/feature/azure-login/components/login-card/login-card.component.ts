@@ -6,12 +6,13 @@ import { AzureButtonComponent } from '../../../../shared/components/azure-button
 
 @Component({
   selector: 'app-login-card',
+  standalone: true,
   imports: [AzureButtonComponent],
   templateUrl: './login-card.component.html',
-  styleUrl: './login-card.component.scss'
+  styleUrl: './login-card.component.scss',
 })
 export class LoginCardComponent {
-  text = AZURE_LOGIN_DETAILS
+  text = AZURE_LOGIN_DETAILS;
   loading = false;
 
   authService = inject(AuthServiceService);

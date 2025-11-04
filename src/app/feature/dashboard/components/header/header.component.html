@@ -1,6 +1,21 @@
-<div class="dashboard-header">
-    <h2>{{ getWelcomeMessage() }}</h2>
-    <button (click)="logout()" [disabled]="logoutLoading">
-      {{ logoutLoading ? 'Logging out...' : 'Logout' }}
+<header class="header">
+  <div class="logo-section">
+    <h3>Welcome Sai!</h3>
+  </div>
+
+  <div class="header-right">
+    <!-- 🎨 Theme Picker -->
+    <div class="theme-picker">
+      <i class="fa-solid fa-palette outlined-icon" (click)="openColorPicker()"></i>
+      <input type="color" #colorInput class="hidden-color-input" (input)="changeThemeColor($event)" />
+    </div>
+
+    <!-- 🔔 Notification Icon -->
+    <button class="icon-btn">
+      <i class="fa-regular fa-bell"></i>
     </button>
-</div>
+
+    <!-- 👤 User Icon -->
+    <i class="fa-regular fa-user-circle"></i>
+  </div>
+</header>

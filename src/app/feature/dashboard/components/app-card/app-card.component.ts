@@ -4,14 +4,14 @@ import { IAppCard } from '../../model/dashboard.model';
 @Component({
   selector: 'app-app-card',
   imports: [],
+  standalone: true,
   templateUrl: './app-card.component.html',
-  styleUrl: './app-card.component.scss'
+  styleUrl: './app-card.component.scss',
 })
 export class AppCardComponent {
-
   data = input<IAppCard[]>([]);
 
-  onClick(index: number){
+  onClick(index: number) {
     const tempData = this.data();
     window.location.href = tempData[index].link;
   }

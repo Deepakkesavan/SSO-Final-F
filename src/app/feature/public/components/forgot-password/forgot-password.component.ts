@@ -1,6 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ForgotPasswordService } from '../../../../shared/services/forgot-password.service';
 import { LayoutComponent } from '../../../../shared/components/layout/layout.component';
@@ -10,6 +15,7 @@ import { FORGOT_PASSWORD_PAGE_DETAILS } from '../../../../core/constants/constan
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
+  standalone: true,
   imports: [ReactiveFormsModule, CommonModule, LayoutComponent],
 })
 export class ForgotPasswordComponent implements OnInit {
@@ -29,7 +35,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   initializeForm() {
     this.forgotPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 
@@ -39,7 +45,7 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     const email = this.forgotPasswordForm.get('email')?.value;
-    
+
     this.isSubmitting = true;
     this.errorMessage = '';
     this.successMessage = '';
@@ -48,10 +54,10 @@ export class ForgotPasswordComponent implements OnInit {
       next: (response) => {
         this.isSubmitting = false;
         this.successMessage = response.message || 'OTP sent to your email!';
-        
+
         // Store email in service for next steps
         this.forgotPasswordService.setEmail(email);
-        
+
         // Navigate to verify OTP page after 2 seconds
         setTimeout(() => {
           this.router.navigate(['/verify-otp']);
@@ -59,9 +65,10 @@ export class ForgotPasswordComponent implements OnInit {
       },
       error: (error) => {
         this.isSubmitting = false;
-        this.errorMessage = error.error?.error || 'Failed to send OTP. Please try again.';
+        this.errorMessage =
+          error.error?.error || 'Failed to send OTP. Please try again.';
         console.error('Error sending OTP:', error);
-      }
+      },
     });
   }
 

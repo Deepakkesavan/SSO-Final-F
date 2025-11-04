@@ -1,8 +1,14 @@
+// impo './index.css';
 
 /* ===== Reset & Base ===== */
 * {
-  margin: 0;
-  padding: 0;
+  //   margin: 0;
+  //   padding: 0;
   box-sizing: border-box;
   font-family: "Segoe UI", Arial, sans-serif;
 }
+
+// import "."
+
+@import "../node_modules/@clarium/ezui-icons/src/assets/ezui-icons/css/ezui-icons.css";
+@import "styles/theme";
