@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { EzuiIconModule } from '@clarium/ezui-icons';
 import { HeaderComponent } from '../components/header/header.component';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
+import { DashboardService } from '../service/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,20 +31,23 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
   ],
 })
 export class DashboardPage {
-  cardData = signal<IAppCard[]>([]);
   private readonly router = inject(Router);
+  username: string = '';
 
   constructor() {}
 
   dashboardStore = inject(DashboardStore);
+  private readonly dashboardService = inject(DashboardService);
 
   ngOnInit(): void {
-    this.cardData.set(this.dashboardStore.cardData());
+    this.dashboardService.getUserProfile().subscribe({
+      next: (user) => {
+        this.username = user.givenName || '';
+      },
+    });
     const savedColor = localStorage.getItem('custom-theme-color');
     if (savedColor) {
       document.documentElement.style.setProperty('--primary-color', savedColor);
     }
   }
-
-  applicaitonData = computed(() => this.cardData());
 }

@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EzuiIconModule } from '@clarium/ezui-icons';
+import { DashboardService } from '../../service/dashboard.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,8 +13,9 @@ import { EzuiIconModule } from '@clarium/ezui-icons';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
-  // header.component.ts (or sidebar.component.ts)
   private readonly route = inject(Router);
+  private readonly dashboardService = inject(DashboardService);
+
   navItems = [
     { label: 'Home', route: 'ems', icon: 'fa-regular fa-house' },
     { label: 'LMS', route: 'lms', icon: 'fa-regular fa-chart-bar' },
@@ -28,6 +30,12 @@ export class SidebarComponent {
   }
 
   OnLogout() {
-    this.route.navigate(['/azure-login']);
+    this.dashboardService.logoutSession().subscribe({
+      next: (success) => {
+        if (success) {
+          this.route.navigate(['/azure-login']);
+        }
+      },
+    });
   }
 }

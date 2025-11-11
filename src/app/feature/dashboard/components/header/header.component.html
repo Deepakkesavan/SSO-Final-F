@@ -1,21 +1,21 @@
 <header class="header">
   <div class="logo-section">
-    <h3>Welcome Sai!</h3>
+    <h3>Welcome {{ name().charAt(0).toUpperCase() + name().slice(1).toLowerCase() }}!</h3>
   </div>
 
   <div class="header-right">
-    <!-- 🎨 Theme Picker -->
+
     <div class="theme-picker">
       <i class="fa-solid fa-palette outlined-icon" (click)="openColorPicker()"></i>
       <input type="color" #colorInput class="hidden-color-input" (input)="changeThemeColor($event)" />
     </div>
 
-    <!-- 🔔 Notification Icon -->
+    <!-- Notification Icon -->
     <button class="icon-btn">
       <i class="fa-regular fa-bell"></i>
     </button>
 
-    <!-- 👤 User Icon -->
+    <!-- User Icon -->
     <i class="fa-regular fa-user-circle"></i>
   </div>
 </header>

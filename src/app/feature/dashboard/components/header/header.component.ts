@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, input } from '@angular/core';
 import { EzuiIconModule } from '@clarium/ezui-icons';
 
 @Component({
@@ -9,6 +9,8 @@ import { EzuiIconModule } from '@clarium/ezui-icons';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  name = input<string>(' ');
+
   @ViewChild('colorInput') colorInput!: ElementRef<HTMLInputElement>;
 
   ngOnInit(): void {

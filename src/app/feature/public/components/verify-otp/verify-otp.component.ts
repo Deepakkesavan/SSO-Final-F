@@ -1,4 +1,9 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -8,10 +13,11 @@ import { LayoutComponent } from '../../../../shared/components/layout/layout.com
 
 @Component({
   selector: 'app-verify-otp',
+  standalone: true,
   templateUrl: './verify-otp.component.html',
   styleUrls: ['./verify-otp.component.scss'],
   imports: [FormsModule, CommonModule, LayoutComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class VerifyOtpComponent implements OnInit {
   brandingDetails = VERIFY_OTP_PAGE_DETALS;
@@ -28,7 +34,7 @@ export class VerifyOtpComponent implements OnInit {
   ngOnInit(): void {
     // Get email from service
     this.email = this.forgotPasswordService.getEmail();
-    
+
     // If no email found, redirect back to forgot password
     if (!this.email) {
       this.router.navigate(['/forgot-password']);
@@ -49,7 +55,7 @@ export class VerifyOtpComponent implements OnInit {
       next: (response) => {
         this.isSubmitting = false;
         this.successMessage = response.message || 'OTP verified successfully!';
-        
+
         // Navigate to set new password page after 1.5 seconds
         setTimeout(() => {
           this.router.navigate(['/set-new-password']);
@@ -57,9 +63,10 @@ export class VerifyOtpComponent implements OnInit {
       },
       error: (error) => {
         this.isSubmitting = false;
-        this.errorMessage = error.error?.error || 'Invalid or expired OTP. Please try again.';
+        this.errorMessage =
+          error.error?.error || 'Invalid or expired OTP. Please try again.';
         console.error('Error verifying OTP:', error);
-      }
+      },
     });
   }
 
@@ -76,9 +83,10 @@ export class VerifyOtpComponent implements OnInit {
       },
       error: (error) => {
         this.isResending = false;
-        this.errorMessage = error.error?.error || 'Failed to resend OTP. Please try again.';
+        this.errorMessage =
+          error.error?.error || 'Failed to resend OTP. Please try again.';
         console.error('Error resending OTP:', error);
-      }
+      },
     });
   }
 

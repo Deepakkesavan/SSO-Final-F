@@ -10,10 +10,10 @@ import { EzuiIconModule } from '@clarium/ezui-icons';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  router = inject(Router);
-  // constructor(private router: Router) {}
+  private readonly router = inject(Router);
 
   ngOnInit() {
+    console.log('[HOST Router Config]', this.router.config);
     const fullUrl = window.location.href;
     const pathname = window.location.pathname;
     const hostname = window.location.hostname;
@@ -22,9 +22,9 @@ export class AppComponent {
 
     console.log('Full URL:', fullUrl);
     console.log('Pathname:', pathname);
-    this.router.events.subscribe((event) => {
-      console.log('[Router Event]', event);
-    });
+    // this.router.events.subscribe((event) => {
+    //   console.log('[Router Event]', event);
+    // });
 
     // const routePath = pathname.replace('/ssoui', '') || '/';
 

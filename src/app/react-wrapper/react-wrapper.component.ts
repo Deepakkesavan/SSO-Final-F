@@ -17,8 +17,8 @@ import { environment } from '../../environments/environment';
   standalone: true,
 })
 export class ReactWrapperComponent {
-  // remoteEntry?: string = environment.remotes.tms;
   remoteEntry?: string = environment.remotes.tms;
+  // remoteEntry?: string = 'http://localhost:4201/remoteEntry.js';
   exposedModule = './App';
   componentName: string = 'default';
   @ViewChild('container', { static: true })
@@ -26,18 +26,6 @@ export class ReactWrapperComponent {
   private root?: any;
 
   async ngOnInit() {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'http://localhost:4201/assets/RemoteApp-NQjBy405.css'; // adjust path as needed
-    document.head.appendChild(link);
-    if (!this.remoteEntry || !this.exposedModule) {
-      console.error('Missing required inputs:', {
-        remoteEntry: this.remoteEntry,
-        exposedModule: this.exposedModule,
-      });
-      return;
-    }
-
     if (!this.remoteEntry || !this.exposedModule) {
       console.error('Missing required inputs:', {
         remoteEntry: this.remoteEntry,
@@ -51,7 +39,6 @@ export class ReactWrapperComponent {
       const m = await loadRemoteModule({
         type: 'module',
         remoteEntry: this.remoteEntry,
-        // remoteE: 'reactRemote',
         exposedModule: this.exposedModule,
       });
 

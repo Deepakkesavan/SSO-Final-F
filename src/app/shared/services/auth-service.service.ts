@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { IUser } from '../../feature/dashboard/model/dashboard.model';
-import { BACKEND_URLS } from '../../environments/environment';
+import { BACKEND_URLS } from '../../urls/url';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })

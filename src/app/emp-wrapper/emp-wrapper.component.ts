@@ -17,8 +17,8 @@ import { environment } from '../../environments/environment';
   standalone: true,
 })
 export class EmpWrapperComponent implements OnInit, OnDestroy {
-  // remoteEntry?: string = 'http://localhost:4202/remoteEntry.js';
   remoteEntry?: string = environment.remotes.ems;
+  // remoteEntry?: string = 'https://people-dev.clarium.tech/emsui/remoteEntry.js';
   exposedModule = './App';
   componentName: string = 'default';
   @ViewChild('container', { static: true })

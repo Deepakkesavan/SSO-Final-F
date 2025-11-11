@@ -15,10 +15,10 @@ export const modelInterceptor: HttpInterceptorFn = (req, next) => {
       if (httpResp.body && httpResp.body.result !== undefined) {
         // Clone the HttpResponse, replacing the body with the value inside 'result'
         // This means only the model data will be returned to the caller, instead of the whole wrapper object
-        console.log(
-          'resposne from model intercepto........................-----------------------------------, ',
-          httpResp
-        );
+        // console.log(
+        //   'resposne from model intercepto........................-----------------------------------, ',
+        //   httpResp
+        // );
 
         return httpResp.clone({ body: httpResp.body.result });
       }

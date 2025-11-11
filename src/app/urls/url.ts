@@ -6,3 +6,4 @@ export const FRONTEND_URLS = {
 export const BACKEND_URLS = {
     SSOURL: "https://people-dev.clarium.tech/ssoapi/api/auth"
 }
+// 
