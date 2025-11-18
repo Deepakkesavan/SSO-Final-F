@@ -5,32 +5,42 @@
   "projects": {
     "oauth2-angular-app": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "ngx-build-plus:browser",
           "options": {
-            "outputPath": "dist/oauth2-angular-app",
+            "outputPath": "dist/oauth2-angular-app/browser",
             "index": "src/index.html",
-            "browser": "src/main.ts",
             "polyfills": ["zone.js"],
-
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "."
               }
             ],
-            "styles": ["src/styles.css"],
-            "scripts": []
+            "styles": [
+              "src/styles.scss",
+              "node_modules/@clarium/ngce-icon/src/assets/ngce-icons/css/ngce-icon.css"
+            ],
+            "scripts": [],
+            "main": "src/main.ts",
+            "extraWebpackConfig": "webpack.config.js",
+            "commonChunk": false
           },
           "configurations": {
             "production": {
+              "baseHref": "/ssoui/",
               "budgets": [
                 {
                   "type": "initial",
@@ -43,9 +53,17 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "webpack.prod.config.js"
             },
             "development": {
+              "baseHref": "/",
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
@@ -54,17 +72,36 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "port": 5050,
+            "open": true,
+            "publicHost": "http://localhost:5050",
+            "extraWebpackConfig": "webpack.config.js"
+          },
           "configurations": {
             "production": {
-              "buildTarget": "oauth2-angular-app:build:production"
+              "buildTarget": "oauth2-angular-app:build:production",
+              "extraWebpackConfig": "webpack.prod.config.js"
             },
             "development": {
               "buildTarget": "oauth2-angular-app:build:development"
             }
           },
-          "options": { "port": 5050, "open": true },
           "defaultConfiguration": "development"
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/oauth2-angular-app/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            }
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
@@ -77,10 +114,18 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
-              }
+                "input": "node_modules/@fortawesome/fontawesome-free/webfonts",
+                "output": "assets/webfonts"
+              },
+              "src/favicon.ico",
+              "src/assets"
             ],
-            "styles": ["src/styles.css"],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/@clarium/ngce-components/styles/styles.scss",
+              "node_modules/@clarium/ngce-icon/src/assets/ngce-icons/css/ngce-icon.css"
+            ],
             "scripts": []
           }
         }

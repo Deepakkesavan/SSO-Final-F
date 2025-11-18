@@ -1,0 +1,53 @@
+<div class="login-card">
+    <h2>{{ text.title }}</h2>
+
+    @if (loading) {
+    <div class="loading-msg">
+        {{ text.loadingText }}
+    </div>
+    } @else{ @if (errorMessage) {
+    <p class="error-msg">{{ errorMessage }}</p>
+    } @if (!isAuthenticated) {
+
+    <!-- Custom Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="customLogin()">
+        <div class="form-group">
+            <label>Employee ID</label>
+            <input formControlName="email" type="text" required placeholder="eg: 1000" />
+            @if (this.loginForm.get('email')?.touched &&
+            this.loginForm.get('email')?.invalid) {
+            <small>
+                {{ text.errorMessages.email }}
+            </small>
+            }
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input formControlName="password" type="password" required placeholder="••••••••••" />
+            @if (this.loginForm.get('password')?.touched &&
+            this.loginForm.get('password')?.invalid) {
+            <small>
+                {{ text.errorMessages.password }}
+            </small>
+            }
+        </div>
+
+        <button type="submit" [disabled]="!loginForm.valid || customLoginLoading">
+            {{ customLoginLoading ? "Logging in..." : "Login" }}
+        </button>
+    </form>
+
+    <div class="divider">{{ text.divider }}</div>
+
+    <!-- OAuth Login -->
+    <app-azure-button [data]="text.formButtons.azure"></app-azure-button>
+
+    }@else{
+    <!-- Already Logged In -->
+    <div class="already-login">
+        <p>{{ text.loggedInText }}</p>
+        <button (click)="goToDashboard()">{{ text.formButtons.dashboard }}</button>
+    </div>
+    } }
+</div>

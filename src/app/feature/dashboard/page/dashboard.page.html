@@ -1,0 +1,13 @@
+<div class="layout-container">
+  <!-- Sidebar (Fixed Left) -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Section: Header + Page Content -->
+  <div class="main-area">
+    <app-header [name]="username"></app-header>
+
+    <div class="page-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

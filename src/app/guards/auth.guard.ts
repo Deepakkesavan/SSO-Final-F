@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthServiceService } from '../services/auth-service.service';
+import { AuthServiceService } from '../shared/services/auth-service.service';
 
 export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthServiceService);
@@ -11,6 +11,7 @@ export const authGuard: CanActivateFn = () => {
   if (isAuth) {
     return true;
   } else {
-    return router.parseUrl('/login');
+    // Redirect to azure-login instead of /login
+    return router.parseUrl('/azure-login');
   }
 };

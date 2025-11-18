@@ -1,19 +1,16 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
-import { AppLoginComponent } from './components/app-login/app-login.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { SignupComponent } from './components/sign-up/sign-up.component';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
-import { authGuard } from './guards/auth.guard';
+import { globalErrorHandlerInterceptor } from './interceptors/global-error-handler.interceptor';
+import { modelInterceptor } from './interceptors/model.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(
+      withInterceptors([globalErrorHandlerInterceptor, modelInterceptor])
+    ),
   ],
 };
