@@ -68,7 +68,7 @@ export class SignupComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.loading = false;
-          console.log('Signup successful:', response);
+
           this.successMessage =
             'Account created successfully! Redirecting to login...';
 
@@ -77,7 +77,6 @@ export class SignupComponent implements OnInit {
         },
         error: (error: { error?: { error: string }; status: number }) => {
           this.loading = false;
-          console.error('Signup failed:', error);
 
           if (error.error?.error) {
             this.errorMessage = error.error.error;

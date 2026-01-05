@@ -82,7 +82,6 @@ export class SetNewPasswordComponent implements OnInit {
         this.isSubmitting = false;
         this.errorMessage =
           error.error?.error || 'Failed to reset password. Please try again.';
-        console.error('Error setting new password:', error);
       },
     });
   }

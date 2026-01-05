@@ -1,9 +1,0 @@
-<div class="app-cards">
-    @for (item of data(); track item) {
-        <div class="app-card" [style]="{background: item.backgroundColor}">
-            <h4>{{item.applicationName}}</h4>
-            <p>{{item.description}}</p>
-            <button (click)="onClick($index)" [style]="{background: item.buttonColor}">{{item.buttonTitle}}</button>
-        </div>
-    }
-</div>

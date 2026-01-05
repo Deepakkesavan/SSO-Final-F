@@ -67,7 +67,6 @@ export class ForgotPasswordComponent implements OnInit {
         this.isSubmitting = false;
         this.errorMessage =
           error.error?.error || 'Failed to send OTP. Please try again.';
-        console.error('Error sending OTP:', error);
       },
     });
   }

@@ -27,6 +27,11 @@
                 "glob": "**/*",
                 "input": "public",
                 "output": "."
+              },
+              {
+                "glob": "**/*",
+                "input": "../oauth2-angular-app/src/assets",
+                "output": "assets/oauth2-angular-app"
               }
             ],
             "styles": [
@@ -117,7 +122,6 @@
                 "input": "node_modules/@fortawesome/fontawesome-free/webfonts",
                 "output": "assets/webfonts"
               },
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [

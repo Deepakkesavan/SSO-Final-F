@@ -1,16 +1,15 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { IUser } from '../../feature/dashboard/model/dashboard.model';
-import { BACKEND_URLS } from '../../urls/url';
-import { environment } from '../../../environments/environment';
+import { IUser } from '../model/shared.model';
+import { runtimeConfig } from '../../../config/runtime-config';
 
 @Injectable({ providedIn: 'root' })
 export class AuthServiceService {
-  private readonly API = BACKEND_URLS.SSOURL;
-  private readonly CUSTOM_API =
-    'https://people-dev.clarium.tech/custom-login/auth';
+  private readonly ssoBackendApi = runtimeConfig.ssoBackendUrl;
+  private readonly customLoginApi = runtimeConfig.ssoCustomLoginUrl;
+  private readonly http = inject(HttpClient);
 
   private userSubject = signal<{
     authenticated: boolean;
@@ -19,18 +18,14 @@ export class AuthServiceService {
 
   public userSubjectOneSignal = this.userSubject.asReadonly();
 
-  private baseUrl = environment.apiBaseUrl;
-
-  constructor(private http: HttpClient) {
-    this.checkAuthStatus();
-  }
-
-  /** ===================== CHECK AUTH STATUS ===================== */
   checkAuthStatus(): void {
     this.http
-      .get<{ authenticated: boolean }>(`${this.API}/auth-status`, {
-        withCredentials: true,
-      })
+      .get<{ authenticated: boolean }>(
+        `${this.ssoBackendApi}/api/auth/auth-status`,
+        {
+          withCredentials: true,
+        }
+      )
       .pipe(
         tap((status) => {
           if (status.authenticated) {
@@ -48,10 +43,29 @@ export class AuthServiceService {
       .subscribe();
   }
 
+  checkAuthenticationStatus() {
+    return this.http
+      .get<{ authenticated: boolean; user?: IUser }>(
+        `${this.ssoBackendApi}/api/auth/auth-status`,
+        { withCredentials: true }
+      )
+      .pipe(
+        tap((response) => {
+          // Update signal globally
+          this.userSubject.set({
+            authenticated: response.authenticated,
+            user: response.user,
+          });
+        })
+      );
+  }
+
   /** ===================== FETCH FULL USER PROFILE ===================== */
   getUserProfile(): Observable<IUser> {
     return this.http
-      .get<IUser>(`${this.API}/user-profile`, { withCredentials: true })
+      .get<IUser>(`${this.ssoBackendApi}/api/auth/user-profile`, {
+        withCredentials: true,
+      })
       .pipe(
         tap((user) => this.userSubject.set({ authenticated: true, user })),
         catchError(() => {
@@ -65,7 +79,7 @@ export class AuthServiceService {
   customLogin(email: string, password: string): Observable<any> {
     return this.http
       .post(
-        `${this.CUSTOM_API}/signin`,
+        `${this.customLoginApi}/auth/signin`,
         { email, password },
         { withCredentials: true, observe: 'response' }
       )
@@ -81,20 +95,14 @@ export class AuthServiceService {
       );
   }
 
-  // /** ===================== OAUTH LOGIN ===================== */
-  // loginWithAzure(): void {
-  //   window.location.href = `${this.baseUrl}/oauth2/authorization/azure`;
-  //   // window.location.href = `https://people-dev.clarium.tech/ssoapi/oauth2/authorization/azure`;
-  // }
-
   loginWithAzure(): void {
-    window.location.href = `${this.baseUrl}/oauth2/authorization/azure`;
+    window.location.href = `${this.ssoBackendApi}/oauth2/authorization/azure`;
   }
 
   /** ===================== LOGOUT ===================== */
   logout(): Observable<any> {
     return this.http
-      .post(`${this.API}/logout`, {}, { withCredentials: true })
+      .post(`${this.ssoBackendApi}/logout`, {}, { withCredentials: true })
       .pipe(
         tap(() => this.clearAuth()),
         catchError(() => {

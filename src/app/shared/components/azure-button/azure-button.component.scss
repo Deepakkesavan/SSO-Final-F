@@ -1,28 +1,27 @@
 .azure-btn {
-    width: 100%;
-    padding: 1.375rem;
-    color: white;
-    border: none;
-    border-radius: 14px;
-    font-size: 1.125rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 1rem;
-    background: linear-gradient(135deg, #00afb0 0%, #026262 100%);
-    letter-spacing: 0.02em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-  }
-  
-  .azure-btn:hover {
-    background:linear-gradient(135deg, #00afb0 0%, #026262 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0, 175, 176, 0.3);
-  }
-  .microsoft-icon {
-    width: 24px;
-    height: 24px;
-  }
+  width: 100%;
+  padding: 1rem;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  background: var(--login-button);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.azure-btn:hover {
+  // background: linear-gradient(135deg, #00afb0 0%, #026262 100%);
+  transform: translateY(-2px);
+}
+.microsoft-icon {
+  width: 24px;
+  height: 24px;
+}

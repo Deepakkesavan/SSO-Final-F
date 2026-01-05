@@ -9,33 +9,4 @@ import { EzuiIconModule } from '@clarium/ezui-icons';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  private readonly router = inject(Router);
-
-  ngOnInit() {
-    console.log('[HOST Router Config]', this.router.config);
-    const fullUrl = window.location.href;
-    const pathname = window.location.pathname;
-    const hostname = window.location.hostname;
-    const search = window.location.search;
-    const portnumber = window.location.port;
-
-    console.log('Full URL:', fullUrl);
-    console.log('Pathname:', pathname);
-    // this.router.events.subscribe((event) => {
-    //   console.log('[Router Event]', event);
-    // });
-
-    // const routePath = pathname.replace('/ssoui', '') || '/';
-
-    if (pathname.includes('/admin')) {
-      this.router.navigateByUrl('/admin-dashboard');
-    } else if (portnumber === '1234') {
-      this.router.navigate(['user-login']);
-    } else if (pathname === '/clarium/internal') {
-      this.router.navigate(['azure-login']);
-    } else if (hostname === 'subdomain.example.com') {
-      this.router.navigate(['user-login']);
-    }
-  }
-}
+export class AppComponent {}

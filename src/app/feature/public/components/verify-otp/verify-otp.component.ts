@@ -65,7 +65,6 @@ export class VerifyOtpComponent implements OnInit {
         this.isSubmitting = false;
         this.errorMessage =
           error.error?.error || 'Invalid or expired OTP. Please try again.';
-        console.error('Error verifying OTP:', error);
       },
     });
   }
@@ -85,7 +84,6 @@ export class VerifyOtpComponent implements OnInit {
         this.isResending = false;
         this.errorMessage =
           error.error?.error || 'Failed to resend OTP. Please try again.';
-        console.error('Error resending OTP:', error);
       },
     });
   }

@@ -108,9 +108,9 @@ export const SIGNUP_PAGE_DETAILS = {
 
 export const AZURE_LOGIN_DETAILS = {
     title: "Sign in",
-    subtitle: "Sign-In with Clarium Mail",
+    subtitle: "with Clarium Mail",
     loading: "Redirecting to Azure...",
-    buttonText: "Sign in with Microsoft"
+    buttonText: "Microsoft"
 }
 
 
