@@ -1,16 +1,35 @@
 <div class="login-container">
+  <!-- Background patterns -->
+  <div class="bg-top"></div>
+  <div class="bg-bottom"></div>
 
-  <!-- Logo Section -->
-  <div class="logo-section">
-    <div class="logo-icon">
-      <img src="assets/images/clarium-logo.png" alt="Clarium Logo" />
-      <h6 class="subtitle">Innovative. Transform. Secure</h6>
+  <div class="login-content">
+    <!-- Logo -->
+    <div class="logo-section">
+      <app-logo></app-logo>
     </div>
-  </div>
 
-  <!-- Login Card -->
-  <div class="login-card">
-    <app-login-card></app-login-card>
-  </div>
+    <!-- Login card -->
+    <div class="login-card">
+      <div class="card-header">
+        <h2>Sign in</h2>
+        <p>With Clarium Mail</p>
+      </div>
 
+      <button class="azure-btn" (click)="loginWithAzure()">
+        <svg class="microsoft-icon" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#f35325" d="M1 1h10v10H1z" />
+          <path fill="#81bc06" d="M12 1h10v10H12z" />
+          <path fill="#05a6f0" d="M1 12h10v10H1z" />
+          <path fill="#ffba08" d="M12 12h10v10H12z" />
+        </svg>
+        Login with Azure AD
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <p class="footer">
+      © 2026 Clarium. All rights reserved.
+    </p>
+  </div>
 </div>

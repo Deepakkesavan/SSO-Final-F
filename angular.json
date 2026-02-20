@@ -34,10 +34,7 @@
                 "output": "assets/oauth2-angular-app"
               }
             ],
-            "styles": [
-              "src/styles.scss",
-              "node_modules/@clarium/ngce-icon/src/assets/ngce-icons/css/ngce-icon.css"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": [],
             "main": "src/main.ts",
             "extraWebpackConfig": "webpack.config.js",
@@ -45,7 +42,7 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/ssoui/",
+              "baseHref": "/",
               "budgets": [
                 {
                   "type": "initial",
@@ -126,9 +123,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/@clarium/ngce-components/styles/styles.scss",
-              "node_modules/@clarium/ngce-icon/src/assets/ngce-icons/css/ngce-icon.css"
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
             "scripts": []
           }

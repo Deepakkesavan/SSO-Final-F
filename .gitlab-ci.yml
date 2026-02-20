@@ -1,10 +1,9 @@
 variables:
   PRIMARY_BRANCH: "main"
-  DEPLOY_REPO: 'git@gitlab.clarium.tech:clarium-edge/clarium-edge-apps-deploy.git'
+  DEPLOY_REPO: 'git@gitlab.clarium.tech:clarium-org-apps/sso/sso-apps-deploy.git'
   TARGET_BRANCH: "stage-dev"
-  MODULE: "clarium-sso-ui"
+  MODULE: "sso-ui"
   SOURCE_DIRECTORY: "./dist/oauth2-angular-app/browser"
-  TARGET_DIRECTORY: "ssoui"
 
 include:
   - project: "devops/gitlab_yamls"

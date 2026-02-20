@@ -1,10 +1,3 @@
-export type brandingType = {
-  title: string;
-  subtitle: string;
-  description: string;
-  buttonText: string;
-};
-
 export interface IUser {
   authenticated: boolean;
   user: {};
